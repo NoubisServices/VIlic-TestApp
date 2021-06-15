@@ -7,11 +7,11 @@ export default class DatabaseAdapter {
         this.db = new JSONdb(dbFile);
     }
 
-    public async incrementAndGetCount(){
-        let data: any = await this.db.get('counter');
+    public incrementAndGetCount(){
+        let data: any = this.db.get('counter');
         data = data + 1;
-        await this.db.set('counter', data);
+        this.db.set('counter', data);
 
-        return await this.db.get('counter');
+        return this.db.get('counter');
     }
 }
