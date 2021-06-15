@@ -1,9 +1,10 @@
 import { Router, Request, Response } from  'express'
-import JSONdb  from 'simple-json-db'
+import DatabaseAdapter from './dbAdapter';
+
 import fetch from 'node-fetch'
 
 const router = Router();
-const db = new JSONdb('db.json');
+const adapter = new DatabaseAdapter('db.json');
 
 router.get('/double/:number', (req: Request, res: Response) => {
     const numb: number = req.params.number as unknown as number;
@@ -11,9 +12,7 @@ router.get('/double/:number', (req: Request, res: Response) => {
 })
 
 router.get('/count', (req: Request, res: Response) => {
-    let data: any = db.get('counter');
-    data = data + 1;
-    db.set('counter', data);
+    const data = adapter.incrementAndGetCount();
     return res.json({ count : data });
   })
 
